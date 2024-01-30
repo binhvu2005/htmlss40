@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>document</title>
+</head>
+<body>
+    <h2>Thông Tin Cá Nhân</h2>
+    <form id="personalInfoForm">
+        <label for="fullName">Họ và Tên:</label><br>
+        <input type="text" id="fullName" name="fullName"><br>
+        <label for="age">Tuổi:</label><br>
+        <input type="number" id="age" name="age"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br><br>
+        <button type="submit">Lưu Thông Tin</button>
+    </form>
+    <div id="displayInfo"></div>
+
+    <script>
+        document.getElementById('personalInfoForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var fullName = document.getElementById('fullName').value;
+            var age = document.getElementById('age').value;
+            var email = document.getElementById('email').value;
+
+            var personalInfo = {
+                fullName: fullName,
+                age: age,
+                email: email
+            };
+
+            localStorage.setItem('personalInfo', JSON.stringify(personalInfo));
+            displayPersonalInfo();
+        });
+
+        function displayPersonalInfo() {
+            var storedInfo = localStorage.getItem('personalInfo');
+            if (storedInfo) {
+                var personalInfo = JSON.parse(storedInfo);
+                var displayDiv = document.getElementById('displayInfo');
+                displayDiv.innerHTML = `
+                    <h3>Thông Tin Cá Nhân:</h3>
+                    <p><strong>Họ và Tên:</strong> ${personalInfo.fullName}</p>
+                    <p><strong>Tuổi:</strong> ${personalInfo.age}</p>
+                    <p><strong>Email:</strong> ${personalInfo.email}</p>
+                `;
+            }
+        }
+        displayPersonalInfo();
+    </script>
+</body>
+</html>
